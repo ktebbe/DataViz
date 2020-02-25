@@ -1,0 +1,208 @@
+---
+title: "Plots"
+output: html_document
+---
+
+Bare line plot for labeling parts of plot
+```{r}
+library(ggplot2)
+library(viridis)
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point(aes(shape = Species), size = 2) +
+  labs(x = "Petal Length",
+       y = "Petal Width",
+       title = "Plant petal sizes are grouped by species",
+       subtitle = "And Virginica are the biggest!", 
+       caption = "This plot was done by Kira. She loves making plots in R!") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=14), legend.title = element_text(size=14), legend.text = element_text(size=12), 
+          plot.title = element_text(size = 18, hjust = .5),
+        plot.subtitle = element_text(size = 14, hjust = .5),
+        plot.caption = element_text(size = 10, hjust = -2))
+
+#ggsave("BasePlot_Plants.png", width = 12, height = 6, type = "cairo")
+
+```
+
+Just ok plots, but room for improvement
+
+```{r}
+f1 <- data.frame(year = seq(2010, 2020, by=1), idk = c(1000,1010,1030,1030,1050,1040,1060,1070,1090,1100,1150))
+
+ggplot(f1, aes(x = year, y = idk)) +
+  geom_line() +
+  xlab("Year") +
+  ylab("Number of Customers") +
+  theme_minimal()
+
+#ggsave("OkPlot_CustGrowth.png", width = 12, height = 6, type = "cairo")
+
+```
+
+descriptive titles
+```{r}
+library(ggplot2)
+library(Cairo)
+yrs <- seq(2017, 2020)
+f2 <- data.frame(x = seq(2010,2020), y = c(10,9,11,10,12,11,16,19,23,25,28))
+
+ggplot(f2, aes(x = x, y = y)) +
+  geom_line(size = 2) +
+  theme_minimal() +
+  ylim(c(0,30)) +
+  scale_x_continuous(breaks = seq(2010, 2020)) +
+  labs(x = "Year", y = "Number of Plants Owned",
+        title = "Number of Plants Owned, 2010-2020") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=14), 
+        plot.title = element_text(size = 18), panel.grid.minor = element_blank())
+
+#ggsave("Title_boring.png", width = 12, height = 6)
+
+ggplot(f2, aes(x = x, y = y)) +
+  geom_line(size = 2) +
+  theme_minimal() +
+  ylim(c(0,30)) +
+  scale_x_continuous(breaks = seq(2010, 2020)) +
+  labs(x = "Year", y = "Number of Plants Owned",
+        title = "Plant Ownership Has Risen Sharply Since 2015") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=14), 
+        plot.title = element_text(size = 18), panel.grid.minor = element_blank())
+
+#ggsave("Title_better.png", width = 12, height = 6)
+
+ggplot(f2, aes(x = x, y = y)) +
+  geom_line(size = 2, color = "deeppink") +
+  theme_minimal() +
+  ylim(c(0,30)) +
+  scale_x_continuous(breaks = seq(2010, 2020)) +
+  labs(x = "Year", y = "Number of Plants Owned",
+        title = "Plant Ownership Has Risen Sharply Since 2015") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=14), 
+        plot.title = element_text(size = 18), panel.grid.minor = element_blank())
+
+#ggsave("Title_better_pink.png", width = 12, height = 6)
+
+```
+
+big text
+```{r}
+yrs <- seq(2017, 2020)
+f2 <- data.frame(x = seq(2010,2020), y = c(10,9,11,10,12,11,16,19,23,25,28))
+
+ggplot(f2, aes(x = x, y = y)) +
+  geom_line(size = 2) +
+  theme_minimal() +
+  ylim(c(0,30)) +
+  scale_x_continuous(breaks = seq(2010, 2020)) +
+  labs(x = "Year", y = "Number of Plants Owned",
+        title = "Plant Ownership Has Risen Sharply Since 2015") +
+  theme(panel.grid.minor = element_blank())
+
+#ggsave("SmallText.png", width = 12, height = 6)
+
+ggplot(f2, aes(x = x, y = y)) +
+  geom_line(size = 2) +
+  theme_minimal() +
+  ylim(c(0,30)) +
+  scale_x_continuous(breaks = seq(2010, 2020)) +
+  labs(x = "Year", y = "Number of Plants Owned",
+        title = "Plant Ownership Has Risen Sharply Since 2015") +
+  theme(axis.text=element_text(size=14), axis.title=element_text(size=16), 
+        plot.title = element_text(size = 20), panel.grid.minor = element_blank())
+
+#ggsave("BiggerText.png", width = 12, height = 6)
+
+ggplot(f2, aes(x = x, y = y)) +
+  geom_line(size = 2) +
+  theme_minimal() +
+  ylim(c(0,30)) +
+  scale_x_continuous(breaks = seq(2010, 2020)) +
+  labs(x = "Year", y = "Number of Plants Owned",
+        title = "Plant Ownership Has Risen Sharply Since 2015") +
+  theme(axis.text=element_text(size=16), axis.title=element_text(size=18), 
+        plot.title = element_text(size = 22), panel.grid.minor = element_blank())
+
+#ggsave("BiggestText.png", width = 12, height = 6)
+
+```
+
+
+
+legends suck - label directly on plot
+```{r}
+yrs <- seq(2017, 2020)
+f2 <- data.frame(group = c(1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4), idk = c(200,205,209,215,
+                                                                    199,204,203,210,
+                                                                    203,210,211,213,
+                                                                    200,215,219,227), year = c(yrs, yrs, yrs, yrs))
+
+ggplot(f2, aes(x = year, y = idk, group = group, color = as.factor(group))) +
+  geom_line(size = 2) +
+  theme_minimal() +
+  labs(x = "Year", y = "Sales", color = "Group") +
+  theme(axis.text=element_text(size=14), axis.title=element_text(size=16), 
+        legend.title = element_text(size=18), legend.text = element_text(size=14))
+
+#ggsave("BoringLegend.png", width = 12, height = 6)
+```
+
+
+my final plots from drawing exercise
+```{r}
+library(ggplot2)
+library(tidyverse)
+budgetYears <- seq(100, 1000, by = 100)
+femaleSales <- c(500,600,750,800,900,950,1000,1050,1100,1100)
+maleSales <- c(50,100,250,400,500,750,900,1000, 1200,1500)
+
+f3 <- data.frame(budget = c(budgetYears, budgetYears), 
+                 gender = c(rep("Female", 10), rep("Male", 10)),
+                 sales = c(femaleSales, maleSales))
+
+ggplot(f3, aes(x = budget, y = sales, group = gender, color = gender)) +
+  geom_line(size = 2) +
+  scale_color_manual(values = c("deeppink", "blue")) +
+  labs(x = "Budget (Thousands)", y = "Sales (Thousands)", color = "Group") +
+  theme_minimal() +
+  theme(axis.text=element_text(size=16), axis.title=element_text(size=18),
+        legend.position = "none", panel.grid.minor = element_blank())
+
+#ggsave("DrawingFromTabular1.png", width = 12, height = 6)
+
+f4 <- f3[,1:3] %>% pivot_wider(names_from = gender, values_from = sales)
+names(f4) <- c("Budget", "Sales_Female", "Sales_Male")
+
+ggplot(f4, aes(x = Budget)) +
+  geom_line(aes(y = Sales_Female), size = 2, color = "deeppink") +
+  geom_line(aes(y = Sales_Male), size = 2, color = "blue") +
+  geom_ribbon(data=subset(f4, Budget <= 870), 
+              aes(ymin = Sales_Male + 8, ymax = Sales_Female), fill = "deeppink",
+              alpha = .5) +
+  geom_ribbon(data=subset(f4, Budget >= 900), 
+              aes(ymin = Sales_Female + 8, ymax = Sales_Male), fill = "blue",
+              alpha = .5) +
+  labs(x = "Budget (Thousands)", y = "Sales (Thousands)") +
+  ylim(c(0,1500)) +
+  theme_minimal() +
+  theme(axis.text=element_text(size=16), axis.title=element_text(size=18), 
+        legend.position = "none", panel.grid.minor = element_blank())
+
+#ggsave("DrawingFromTabular2.png", width = 12, height = 6)
+
+f3$Profit <- f3$sales - f3$budget
+ggplot(f3, aes(x = budget, y = Profit, group = gender, color = gender)) +
+  geom_line(size = 2) +
+  scale_color_manual(values = c("deeppink", "blue")) +
+  labs(x = "Budget (Thousands)", y = "Profit (Thousands)", color = "Group") +
+  xlim(c(0,1000)) +
+  ylim(c(-250,500)) +
+  theme_minimal() +
+  theme(axis.text=element_text(size=16), axis.title=element_text(size=18), 
+        legend.position = "none") +
+  geom_hline(yintercept = 0, color = "black")
+
+#ggsave("DrawingFromTabular3.png", width = 12, height = 6)
+
+```
+
+
